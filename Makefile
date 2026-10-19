@@ -1,7 +1,8 @@
 APP     := smtptest
 DIST    := dist
+ZIP     := $(APP).zip
 
-.PHONY: all linux windows clean
+.PHONY: all linux windows zip clean
 
 all: linux windows
 
@@ -13,5 +14,9 @@ windows:
 	mkdir -p $(DIST)
 	GOOS=windows GOARCH=amd64 go build -o $(DIST)/$(APP).exe .
 
+zip: linux windows
+	rm -f $(ZIP)
+	zip -j $(ZIP) $(DIST)/$(APP) $(DIST)/$(APP).exe
+
 clean:
-	rm -rf $(DIST)
+	rm -rf $(DIST) $(ZIP)
